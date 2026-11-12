@@ -1,0 +1,95 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aurora Market | Payment Firewall</title>
+<style>
+:root{--ink:#0e1a24;--ink2:#1b2b38;--mut:#5d6d78;--bg:#f2f5f4;--line:#dde4e2;--teal:#0f9d8a;--teal2:#0b7c6d;--amber:#d98e04;--red:#cf3f3f;--serif:Georgia,"Times New Roman",serif}
+*{box-sizing:border-box;margin:0}body{font:14px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+button{font:inherit;cursor:pointer}:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+header{position:sticky;top:0;z-index:5;background:var(--ink);color:#fff;display:flex;align-items:center;gap:18px;padding:12px 28px}
+.logo{font:700 22px var(--serif);letter-spacing:-.4px}.logo i{color:#5fd6c3;font-style:normal}
+.search{flex:1;max-width:640px;display:flex}.search input{flex:1;padding:10px 14px;border:0;border-radius:8px;font:inherit;background:#fff}
+.hb{background:none;border:1px solid #ffffff33;color:#fff;border-radius:8px;padding:8px 14px}.hb:hover{background:#ffffff14}
+.hb.cart{background:var(--teal);border-color:var(--teal);font-weight:600}
+.hero{background:linear-gradient(120deg,var(--ink) 0%,#12384a 60%,#0f6a66 100%);color:#fff;padding:44px 28px 52px}
+.hero div{max-width:1200px;margin:auto}.hero h1{font:400 40px/1.15 var(--serif);max-width:640px;letter-spacing:-.5px}
+.hero p{margin-top:12px;max-width:560px;color:#c5dad8;font-size:16px}.pills{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.pills span{border:1px solid #ffffff30;border-radius:99px;padding:5px 14px;font-size:13px;color:#e6f2f0}
+main{max-width:1200px;margin:-26px auto 60px;padding:0 28px}
+.bar{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;box-shadow:0 6px 18px #0e1a2410}
+.chip{border:1px solid var(--line);background:#fff;border-radius:99px;padding:5px 14px;color:var(--ink2)}.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px;margin-top:22px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.thumb{height:160px;display:grid;place-items:center;font-size:68px}.body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:3px;flex:1}
+.body small{color:var(--mut)}.body h3{font-size:15px;font-weight:600}.stars{color:#e0a100;font-size:13px}.stars span{color:var(--mut)}
+.row{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:10px}.price{font:700 20px var(--serif)}
+.add{background:var(--ink);color:#fff;border:0;border-radius:8px;padding:8px 14px}.add:hover{background:var(--teal2)}
+#ov{position:fixed;inset:0;background:#0e1a2466;opacity:0;pointer-events:none;transition:.2s;z-index:8}#ov.on{opacity:1;pointer-events:auto}
+#dr{position:fixed;top:0;right:0;bottom:0;width:min(460px,100%);background:#fff;z-index:9;transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column}#dr.open{transform:none}
+.dh{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line)}.dh h2{font:400 21px var(--serif)}.dh button{border:0;background:none;font-size:18px}
+.tabs{display:flex;border-bottom:1px solid var(--line)}.tabs button{flex:1;padding:11px;border:0;background:none;color:var(--mut);border-bottom:2px solid transparent}.tabs .on{color:var(--ink);border-color:var(--teal);font-weight:600}
+.db{padding:18px 20px;overflow:auto;flex:1;display:flex;flex-direction:column;gap:14px}
+.li{display:flex;gap:12px;align-items:center}.li .e{font-size:30px}.li div{flex:1}.li small{color:var(--mut)}.qty{display:flex;align-items:center;gap:8px}.qty button{width:26px;height:26px;border-radius:6px;border:1px solid var(--line);background:#fff}
+.tot{display:flex;justify-content:space-between;font:700 18px var(--serif);border-top:1px solid var(--line);padding-top:12px}
+.sc{display:flex;gap:6px;flex-wrap:wrap}.sc button{border:1px dashed #9db3ae;background:#f6faf9;border-radius:8px;padding:5px 10px;font-size:12px;color:var(--ink2)}
+textarea,.fld input[type=number]{width:100%;border:1px solid var(--line);border-radius:8px;padding:9px 11px;font:inherit}label.fld,.fld{display:flex;flex-direction:column;gap:5px;font-weight:600}
+.btn{border:0;border-radius:8px;padding:12px;font-weight:600;background:var(--teal);color:#fff}.btn.dark{background:var(--ink)}.btn:hover{filter:brightness(1.1)}
+.res{border:1px solid var(--line);border-left:4px solid;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.res.ok{border-left-color:var(--teal)}.res.warn{border-left-color:var(--amber)}.res.bad{border-left-color:var(--red)}
+.rh{display:flex;justify-content:space-between;align-items:center}.badge{color:#fff;border-radius:99px;padding:3px 12px;font-weight:600;font-size:13px}.badge.ok{background:var(--teal)}.badge.warn{background:var(--amber)}.badge.bad{background:var(--red)}
+.meter{height:6px;background:#e8eeec;border-radius:9px;overflow:hidden}.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--amber),var(--red));background-size:460px 100%}
+.res ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:6px}.res li{display:flex;justify-content:space-between;gap:10px;font-size:13px}.res li span{color:var(--mut);text-align:right}.res .p b{color:var(--teal2)}.res .f b{color:var(--red)}
+.ex{font-size:13px;background:#f4f8f7;border-radius:8px;padding:9px 11px}.note{color:var(--mut);font-size:13px}
+.ai{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line)}.ai small{color:var(--mut);display:block}
+#toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,90px);background:var(--ink);color:#fff;padding:12px 20px;border-radius:10px;z-index:20;transition:.3s}#toast.on{transform:translate(-50%,0)}
+@media(max-width:700px){header{flex-wrap:wrap;padding:12px 16px}.hero h1{font-size:30px}main{padding:0 16px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body>
+<header><div class="logo">Aurora<i>Market</i></div><div class="search"><input id="s" placeholder="Search products" oninput="q=this.value.toLowerCase();grid()" aria-label="Search"></div>
+<button class="hb" onclick="open_('rules')">Firewall rules</button><button class="hb" onclick="open_('audit')">Audit log</button><button class="hb cart" onclick="open_('cart')">Cart (<span id="n">0</span>)</button></header>
+<section class="hero"><div><h1>Let your AI agent shop. Keep your money safe.</h1><p>Every purchase an agent makes passes the Payment Firewall first. Rules, an AI intent check and your approval decide whether PayPal is ever called.</p>
+<div class="pills"><span>Server-side rules engine</span><span>AI intent check</span><span>PayPal sandbox checkout</span></div></div></section>
+<main><div class="bar" id="chips"></div><div id="grid"></div></main>
+<div id="ov" onclick="close_()"></div><aside id="dr" aria-label="Control center"></aside><div id="toast"></div>
+<script>
+const $=s=>document.querySelector(s),money=n=>'$'+Number(n).toFixed(2);
+let P=[],cart={},rules={},res=null,human=false,tab='cart',cat='All',q='',clientId=null,intent='';
+const api=(u,b)=>fetch(u,b?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}:{}).then(r=>r.json());
+const items=()=>Object.entries(cart).map(([id,qty])=>({id:+id,qty}));
+const count=()=>Object.values(cart).reduce((a,b)=>a+b,0);
+const sub=()=>items().reduce((s,i)=>s+P.find(p=>p.id===i.id).price*i.qty,0);
+const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),3500)};
+function grid(){
+ $('#chips').innerHTML=['All',...new Set(P.map(p=>p.cat))].map(c=>`<button class="chip ${c===cat?'on':''}" onclick="cat='${c}';grid()">${c}</button>`).join('');
+ $('#grid').innerHTML=P.filter(p=>(cat==='All'||p.cat===cat)&&(p.name+p.cat).toLowerCase().includes(q)).map(p=>`<article class="card"><div class="thumb" style="background:linear-gradient(135deg,${p.c[0]},${p.c[1]})">${p.e}</div><div class="body"><small>${p.cat}</small><h3>${p.name}</h3><div class="stars">★★★★☆ <span>${p.r}</span></div><div class="row"><b class="price">${money(p.price)}</b><button class="add" onclick="add(${p.id})">Add to cart</button></div></div></article>`).join('')||'<p class="note">No products match your search.</p>'}
+function add(id,d=1){cart[id]=(cart[id]||0)+d;if(cart[id]<=0)delete cart[id];res=null;human=false;$('#n').textContent=count();$('#dr').classList.contains('open')?drawer():open_('cart')}
+function open_(t){tab=t;$('#dr').classList.add('open');$('#ov').classList.add('on');drawer()}
+function close_(){$('#dr').classList.remove('open');$('#ov').classList.remove('on')}
+const S=[['Book and notebook',{3:1,4:1},'Buy a book and a notebook for my studies'],['Desk setup',{2:1,1:1,7:1},'Buy a keyboard, headphones and a mouse for my desk'],['Gift cards',{8:1},'Buy a notebook for class'],['Over the limit',{6:1,5:1},'Buy a monitor and a chair for my office']];
+function scen(i){cart={...S[i][1]};intent=S[i][2];$('#n').textContent=count();check()}
+async function check(){res=await api('/api/firewall/evaluate',{items:items(),intent});human=false;open_('cart')}
+function cartHTML(){
+ const l=items().map(i=>{const p=P.find(x=>x.id===i.id);return`<div class="li"><span class="e">${p.e}</span><div>${p.name}<br><small>${money(p.price)} each</small></div><div class="qty"><button onclick="add(${p.id},-1)" aria-label="Remove one">−</button>${i.qty}<button onclick="add(${p.id},1)" aria-label="Add one">+</button></div></div>`}).join('');
+ return(l||'<p class="note">Your cart is empty. Add products, or try a demo scenario below.</p>')+(l?`<div class="tot"><span>Total</span><span>${money(sub())}</span></div>`:'')+
+ `<div class="fld">Demo scenarios<div class="sc">${S.map((s,i)=>`<button onclick="scen(${i})">${s[0]}</button>`).join('')}</div></div>
+ <label class="fld">What did you ask your agent to buy?<textarea rows="2" oninput="intent=this.value" placeholder="e.g. Buy a notebook for class">${intent}</textarea></label>
+ <button class="btn" onclick="check()" ${l?'':'disabled'}>Run firewall check</button>${resHTML()}`}
+function resHTML(){if(!res)return'';const d=res.decision,c={approve:'ok',review:'warn',block:'bad'}[d],lab={approve:'Approved',review:'Needs your approval',block:'Blocked'}[d];
+ return`<div class="res ${c}"><div class="rh"><span class="badge ${c}">${lab}</span><span>Risk: ${res.risk}</span></div><div class="meter"><i style="width:${{low:25,medium:60,high:95}[res.risk]}%"></i></div>
+ <ul>${res.checks.map(k=>`<li class="${k.pass?'p':'f'}"><b>${k.pass?'✓':'✕'} ${k.name}</b><span>${k.detail}</span></li>`).join('')}</ul><p class="ex">🤖 ${res.explanation}</p>${act(d)}</div>`}
+function act(d){if(d==='block')return'<p class="note">No PayPal order can be created for this cart. Change the cart or the rules.</p>';
+ if(d==='review'&&!human)return'<button class="btn dark" onclick="human=true;drawer()">I approve this purchase</button>';
+ return'<div id="pp"></div>'+(clientId?'':'<p class="note">Add your PayPal sandbox keys to .env to show the PayPal button.</p>')}
+function mount(){const el=$('#pp');if(!el||!window.paypal)return;paypal.Buttons({style:{layout:'vertical',shape:'rect'},
+ createOrder:async()=>{const o=await api('/api/orders',{items:items(),intent,humanApproved:human});if(!o.id){toast(o.error||'Could not create the order');throw new Error(o.error)}return o.id},
+ onApprove:async d=>{const c=await api(`/api/orders/${d.orderID}/capture`,{});if(c.status==='COMPLETED'){cart={};res=null;human=false;$('#n').textContent=0;toast('Payment complete. PayPal order '+c.id);open_('audit')}else toast('Payment was not completed')}}).render(el)}
+function rulesHTML(){const cats=[...new Set(P.map(p=>p.cat))];
+ return`<p class="note">Rules run on the server, so an agent cannot talk its way past them.</p>`+[['maxPerPurchase','Max per purchase'],['dailyLimit','Daily limit'],['askHumanAbove','Ask me above']].map(([k,l])=>`<label class="fld">${l} (USD)<input type="number" min="0" id="r_${k}" value="${rules[k]}"></label>`).join('')+
+ `<div class="fld">Blocked categories<div id="bc" class="sc">${cats.map(c=>`<label class="chip ${rules.blockedCategories.includes(c)?'on':''}"><input type="checkbox" hidden value="${c}" ${rules.blockedCategories.includes(c)?'checked':''} onchange="this.parentNode.classList.toggle('on')">${c}</label>`).join('')}</div></div><button class="btn dark" onclick="saveRules()">Save rules</button>`}
+async function saveRules(){const b={blockedCategories:[...document.querySelectorAll('#bc input:checked')].map(i=>i.value)};for(const k of['maxPerPurchase','dailyLimit','askHumanAbove'])b[k]=$('#r_'+k).value;rules=await api('/api/rules',b);res=null;toast('Rules saved')}
+function auditHTML(a){const c={approve:'ok',review:'warn',block:'bad'};return a.length?a.map(e=>`<div class="ai"><span class="badge ${c[e.decision]}">${e.decision}</span><div><b>${e.event}</b> · ${money(e.total)}<small>${new Date(e.time).toLocaleTimeString()} · ${e.note}</small></div></div>`).join(''):'<p class="note">No activity yet. Run a firewall check to see decisions here.</p>'}
+async function drawer(){
+ const T={cart:`Cart (${count()})`,rules:'Rules',audit:'Audit log'};let b;
+ if(tab==='cart')b=cartHTML();else if(tab==='rules')b=rulesHTML();else b=auditHTML(await api('/api/audit'));
+ $('#dr').innerHTML=`<div class="dh"><h2>Payment Firewall</h2><button onclick="close_()" aria-label="Close">✕</button></div><div class="tabs">${Object.keys(T).map(t=>`<button class="${t===tab?'on':''}" onclick="open_('${t}')">${T[t]}</button>`).join('')}</div><div class="db">${b}</div>`;
+ if(tab==='cart')mount()}
+(async()=>{const c=await api('/api/config');rules=c.rules;clientId=c.clientId;P=await api('/api/products');grid();
+ if(clientId){const s=document.createElement('script');s.src=`https://www.paypal.com/sdk/js?client-id=${clientId}&currency=USD&intent=capture`;s.onload=()=>$('#dr').classList.contains('open')&&drawer();document.head.append(s)}})();
+</script></body></html>
